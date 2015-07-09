@@ -1,0 +1,41 @@
+---
+- name: Clone the repository
+  git:
+    repo="{{ repository }}"
+    dest="{{ cache_path }}"
+    accept_hostkey=yes
+    version={{ branch }}
+    force=yes
+  register: git_clone_result
+
+- name: Install npm dependencies
+  npm:
+    path="{{ cache_path }}"
+    production=yes
+
+- name: Create the build directory
+  file: path="{{ build_path }}" state=directory
+
+- name: Copy the project to the build directory
+  synchronize:
+    src="{{ cache_path }}/"
+    dest="{{ build_path }}/"
+    rsync_opts=--exclude=.git
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Install Composer dependencies
+  composer:
+    command=install
+    working_dir="{{ build_path }}"
+    no_dev={{ composer_no_dev }}
+    optimize_autoloader=yes
+
+- name: Run Grunt build task
+  command: "{{ grunt_path }} {{ grunt_task }}"
+  args:
+    chdir: "{{ build_path }}"
+  when: grunt_task != ""
+
+- name: Remove excluded files
+  file: path="{{ build_path }}/{{ item }}" state=absent
+  with_items: excludes

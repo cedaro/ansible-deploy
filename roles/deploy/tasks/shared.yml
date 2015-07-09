@@ -1,0 +1,24 @@
+---
+- name: Check for wp-config.php in shared directory
+  stat: path="{{ deploy_to }}/shared/wp-config.php"
+  register: config_stat
+
+- name: Copy wp-config.php to the build directory
+  synchronize:
+    src="{{ deploy_to }}/shared/wp-config.php"
+    dest="{{ build_path }}/wp-config.php"
+  delegate_to: "{{ inventory_hostname }}"
+  when: config_stat.stat.exists
+
+- name: Check for shared files and directories
+  stat: path="{{ deploy_to }}/{{ item.src }}"
+  register: shared_stat
+  with_items: default_symlinks | union(symlinks)
+
+- name: Create shared symlinks
+  file:
+    src="{{ deploy_to }}/{{ item.item.src }}"
+    path="{{ build_path }}/{{ item.item.dest }}"
+    state=link
+  when: item.stat.exists
+  with_items: shared_stat.results

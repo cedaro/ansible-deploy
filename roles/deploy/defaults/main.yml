@@ -1,0 +1,24 @@
+---
+respository:
+branch: master
+
+workspace: /tmp/ansible-deploy/workspace
+deploy_to: /tmp/ansible-deploy/deploy_to
+
+composer_no_dev: yes
+grunt_path: grunt
+grunt_task: ""
+slack_token: ""
+
+excludes: []
+symlinks: []
+
+default_symlinks:
+  - src: shared/object-cache.php
+    dest: content/object-cache.php
+  - src: shared/blogs.dir
+    dest: content/blogs.dir
+  - src: shared/cache
+    dest: content/cache
+  - src: shared/uploads
+    dest: content/uploads

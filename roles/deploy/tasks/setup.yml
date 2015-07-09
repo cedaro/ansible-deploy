@@ -1,0 +1,8 @@
+- name: Ensure the workspace exists
+  file: path="{{ workspace }}" state=directory
+
+- name: Ensure the releases directory exists
+  file: path="{{ releases_path }}" state=directory
+
+- name: Ensure the shared directory exists
+  file: path="{{ deploy_to }}/shared" state=directory

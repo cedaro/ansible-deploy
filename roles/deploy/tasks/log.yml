@@ -1,0 +1,11 @@
+---
+- name: Log the deployment
+  lineinfile:
+    dest="{{ deploy_to}}/deploy.log"
+    line="{{ ansible_date_time.iso8601 }} - Deployed {{ branch }} (commit {{ git_clone_result.after }}) to {{ release_path }} on {{ inventory_hostname }}"
+    create=yes
+
+- slack:
+    token: "{{ slack_token }}"
+    msg: "Finished deploying `{{ branch }}` to {{ inventory_hostname }}."
+  when: slack_token != ""

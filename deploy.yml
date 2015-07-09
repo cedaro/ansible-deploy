@@ -1,0 +1,21 @@
+---
+- name: Deploy a repository
+  hosts: webservers
+
+  pre_tasks:
+    - slack:
+        token: "{{ slack_token }}"
+        msg: "Deploying `{{ branch }}` to {{ inventory_hostname }}..."
+      when: slack_token is defined
+
+    - set_fact:
+        releases_path: "{{ deploy_to }}/releases"
+        release_directory: "{{ lookup('pipe', 'date -u +%Y%m%d%H%M%S') }}"
+
+    - set_fact:
+        build_path: "{{ workspace }}/build-{{ release_directory }}"
+        cache_path: "{{ workspace }}/cache"
+        release_path: "{{ releases_path }}/{{ release_directory }}"
+
+  roles:
+    - { role: deploy }

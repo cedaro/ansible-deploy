@@ -1,0 +1,6 @@
+---
+- include: setup.yml
+- include: build.yml
+- include: shared.yml
+- include: deploy.yml
+- include: log.yml

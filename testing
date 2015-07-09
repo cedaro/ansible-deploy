@@ -1,0 +1,5 @@
+[webservers]
+localhost ansible_connection=local
+
+[testing:children]
+webservers

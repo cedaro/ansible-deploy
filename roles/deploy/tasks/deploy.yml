@@ -1,0 +1,8 @@
+- name: Move the build directory to the release path
+  command: "mv {{ build_path }} {{ release_path }}"
+
+- name: Make it live
+  file:
+    src="{{ release_path }}"
+    path="{{ deploy_to }}/current"
+    state=link

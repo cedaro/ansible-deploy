@@ -1,0 +1,60 @@
+---
+##
+# The git repository and branch to deploy.
+##
+
+repository: https://github.com/cedaro/example-website.git
+branch: master
+
+
+##
+# Path where the repository is cached and the application is built.
+#
+# Creates the following paths:
+#
+# Repository cache: {{ workspace }}/cache
+# Release build:    {{ workspace }}/build-20150709100000
+##
+
+workspace: /tmp/ansible-deploy/workspace
+
+
+##
+# Path where the application should be deployed.
+#
+# Creates the following paths:
+#
+# Active version:   {{ deploy_to }}/current
+# All releases:     {{ deploy_to }}/releases
+# Deployed release: {{ deploy_to }}/releases/20150709100000
+# Log file:         {{ deploy_to }}/deploy.log
+##
+
+deploy_to: /tmp/ansible-deploy
+
+##
+# A list of files to exclude from the deployment.
+##
+
+excludes:
+  - .editorconfig
+  - .git
+  - .gitignore
+  - composer.json
+  - composer.lock
+  - config
+  - Gruntfile.js
+  - node_modules
+  - package.json
+  - README.md
+  - wordpress/wp-content
+
+
+##
+# Add a Slack Incoming Webhook token to send notifications when a deploy begins
+# and finishes.
+#
+# https://api.slack.com/incoming-webhooks
+##
+
+#slack_token:
