@@ -25,7 +25,7 @@ cd ansible-deploy
 ansible-playbook -i testing deploy.yml
 ```
 
-Running those commands will pull down an [example website](https://github.com/cedaro/website-example) and deploy it to your local machine at `/tmp/ansible-deploy`.
+Running those commands will pull down an [example website](https://github.com/cedaro/example-website) and deploy it to your local machine at `/tmp/ansible-deploy`.
 
 
 ## Next Steps
